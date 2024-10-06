@@ -22,6 +22,7 @@ func main() {
 	if !isGitRepository() {
 		log.Fatalf("This directory is not a Git repository. Please run the command inside a valid Git repository.")
 	}
+
 	// Use the flag package to parse arguments
 	filePath := flag.String("file", "", "Path of the file to remove from Git history")
 	flag.Parse()
@@ -37,9 +38,6 @@ func main() {
 	if _, err := os.Stat(cleanedPath); os.IsNotExist(err) {
 		log.Fatalf("The file '%s' does not exist in the current directory.\n", cleanedPath)
 	}
-
-	// Add the file to .gitignore if it currently exists
-	addFileToGitignore(cleanedPath)
 
 	// Search for commits containing the file
 	fmt.Println("Searching for commits containing the file...")
@@ -67,6 +65,9 @@ func main() {
 
 	// Use native git commands to remove the file from history
 	removeFileFromHistoryNative(cleanedPath)
+
+	// Add the file to .gitignore after removing it from history
+	addFileToGitignore(cleanedPath)
 
 	fmt.Println("The file has been removed from the Git history.")
 	fmt.Println("Don't forget to force update the remote references with:")
