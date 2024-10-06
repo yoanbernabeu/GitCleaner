@@ -3,7 +3,7 @@
 # Set variables
 REPO_NAME="yoanbernabeu/GitCleaner"
 BINARY_NAME="git-cleaner"
-VERSION="0.1.3"
+VERSION="0.1.4"
 
 # Determine the OS and architecture
 OS=$(uname | tr '[:upper:]' '[:lower:]')

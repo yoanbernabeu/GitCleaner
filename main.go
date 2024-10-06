@@ -34,11 +34,6 @@ func main() {
 
 	cleanedPath := filepath.ToSlash(filepath.Clean(*filePath))
 
-	// Check if the file exists
-	if _, err := os.Stat(cleanedPath); os.IsNotExist(err) {
-		log.Fatalf("The file '%s' does not exist in the current directory.\n", cleanedPath)
-	}
-
 	// Search for commits containing the file
 	fmt.Println("Searching for commits containing the file...")
 	commits, err := getCommitsWithFile(cleanedPath)
