@@ -112,7 +112,11 @@ func getUserConfirmation() bool {
 
 // removeFileFromHistoryNative uses native git commands to remove the file from history
 func removeFileFromHistoryNative(filePath string) {
-	// Remove the file from commits
+	// Set environment variable globally for the process
+	if err := os.Setenv("FILTER_BRANCH_SQUELCH_WARNING", "1"); err != nil {
+		log.Fatalf("Error setting environment variable: %v", err)
+	}
+
 	cmd := exec.Command("git", "filter-branch", "--force", "--index-filter", fmt.Sprintf("git rm --cached --ignore-unmatch '%s'", filePath), "--prune-empty", "--tag-name-filter", "cat", "--", "--all")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
