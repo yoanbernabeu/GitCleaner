@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 
 	if *filePath == "" {
-		fmt.Println("Usage: git-clean --file <file_path>")
+		fmt.Println("Usage: git-cleaner --file <file_path>")
 		os.Exit(1)
 	}
 

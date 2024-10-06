@@ -17,7 +17,7 @@ Git Cleaner is a command-line tool designed to help you easily remove files from
 To use Git Cleaner, run the following command (replace `<file_path>` with the path of the file you want to remove from the Git history):
 
 ```bash
-git-clean --file <file_path>
+git-cleaner --file <file_path>
 ```
 
 Replace `<file_path>` with the path of the file you want to remove from the Git history.
@@ -25,7 +25,7 @@ Replace `<file_path>` with the path of the file you want to remove from the Git 
 ### Example
 
 ```bash
-git-clean --file secrets.txt
+git-cleaner --file secrets.txt
 ```
 
 This command will search for all the commits containing `secrets.txt` and then prompt you to confirm its removal from the Git history.
