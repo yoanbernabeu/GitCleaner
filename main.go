@@ -111,7 +111,7 @@ func getUserConfirmation() bool {
 
 // removeFileWithFilterRepo uses git-filter-repo to remove the file from history
 func removeFileWithFilterRepo(filePath string) {
-	cmd := exec.Command("git", "filter-repo", "--path", filePath, "--force")
+	cmd := exec.Command("git", "filter-repo", "--path", filePath, "--invert-paths", "--force")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
