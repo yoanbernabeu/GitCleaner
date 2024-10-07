@@ -1,4 +1,4 @@
-# Git Cleaner - Simplify Your Git History!
+# Git Cleaner - Clean Your Git History !
 
 Git Cleaner is a command-line tool designed to help you easily remove files from your Git history. It allows you to delete files that should no longer be tracked, even if they are present in previous commits. The tool provides an interactive experience to ensure safe removal, making your repository cleaner and smaller.
 
