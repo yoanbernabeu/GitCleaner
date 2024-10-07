@@ -16,7 +16,7 @@ func main() {
 	fmt.Println("\n==============================")
 	fmt.Println("Git Cleaner - Simplify your Git history!")
 	fmt.Println("Removing files from Git history safely and effectively.")
-	fmt.Println("==============================\n")
+	fmt.Println("==============================")
 
 	// Check if we are in a directory with a git repository
 	if !isGitRepository() {
@@ -58,8 +58,12 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Use native git commands to remove the file from history
-	removeFileFromHistoryNative(cleanedPath)
+	// Determine if git-filter-repo is available
+	if isGitFilterRepoAvailable() {
+		removeFileWithFilterRepo(cleanedPath)
+	} else {
+		removeFileFromHistoryNative(cleanedPath)
+	}
 
 	// Add the file to .gitignore after removing it from history
 	addFileToGitignore(cleanedPath)
@@ -105,6 +109,19 @@ func getUserConfirmation() bool {
 	}
 }
 
+// removeFileWithFilterRepo uses git-filter-repo to remove the file from history
+func removeFileWithFilterRepo(filePath string) {
+	cmd := exec.Command("git", "filter-repo", "--path", filePath, "--force")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	fmt.Println("Removing the file from the Git history using git-filter-repo...")
+
+	if err := cmd.Run(); err != nil {
+		log.Fatalf("Error removing the file with git-filter-repo: %v", err)
+	}
+}
+
 // removeFileFromHistoryNative uses native git commands to remove the file from history
 func removeFileFromHistoryNative(filePath string) {
 	// Set environment variable globally for the process
@@ -116,7 +133,7 @@ func removeFileFromHistoryNative(filePath string) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	fmt.Println("Removing the file from the Git history...")
+	fmt.Println("Removing the file from the Git history using git filter-branch...")
 
 	if err := cmd.Run(); err != nil {
 		log.Fatalf("Error removing the file: %v", err)
@@ -132,6 +149,15 @@ func removeFileFromHistoryNative(filePath string) {
 	if err := exec.Command("git", "gc", "--prune=now", "--aggressive").Run(); err != nil {
 		log.Fatalf("Error running garbage collection: %v", err)
 	}
+}
+
+// isGitFilterRepoAvailable checks if git-filter-repo is available
+func isGitFilterRepoAvailable() bool {
+	cmd := exec.Command("git", "filter-repo", "--version")
+	if err := cmd.Run(); err != nil {
+		return false
+	}
+	return true
 }
 
 // isGitRepository checks if the current directory is a Git repository

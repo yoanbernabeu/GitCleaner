@@ -10,9 +10,11 @@ Git Cleaner is a command-line tool designed to help you easily remove files from
 
 - Interactive Confirmation: Git Cleaner will prompt for user confirmation before making any destructive changes.
 
-- Native Git Commands: Uses native Git commands to modify the history, so no additional tools are needed beyond Git itself.
+- Git Filter-Repo vs Native Git: Git Cleaner supports by default git-filter-repo, but if it is not available, it will use native Git commands to remove the file from the history.
 
 ## Installation
+
+>  **Recommended**: Install Git Filter-Repo to ensure the best performance: [Git Filter-Repo Installation Guide](https://github.com/newren/git-filter-repo/blob/main/INSTALL.md)
 
 To install Git Cleaner, run the following command:
 
@@ -40,17 +42,13 @@ This command will search for all the commits containing `secrets.txt` and then p
 
 ## How It Works
 
-1. Check Git Repository: The command first checks if the current directory is a Git repository. If not, it exits with an error message.
+1. Search for Commits: It searches for all the commits containing the file.
 
-2. File Existence Check: It verifies if the file exists in the current directory. If the file does not exist, it stops with an error.
+2. User Confirmation: It provides a list of commits and asks for user confirmation to proceed with removing the file from the history.
 
-3. Add to .gitignore: If the file is present, it will be added to .gitignore to ensure it won't be tracked in future commits.
+3. Remove File from History: If confirmed, it removes the file from the Git history using either git-filter-repo or native Git commands.
 
-4. Search for Commits: It searches for all the commits containing the file.
-
-5. User Confirmation: It provides a list of commits and asks for user confirmation to proceed with removing the file from the history.
-
-6. Remove File from History: If confirmed, it uses git filter-branch to remove the file from the history and cleans up backup references.
+4. Add to .gitignore: If the file is present, it will be added to .gitignore to ensure it won't be tracked in future commits.
 
 ## Important Notes
 
@@ -66,6 +64,8 @@ This command will search for all the commits containing `secrets.txt` and then p
 ## Requirements
 
 - **Git**: Git must be installed and accessible from the command line.
+
+- **git-filter-repo** (Recommended): If git-filter-repo is not available, Git Cleaner will use native Git commands to remove the file from the history.
 
 - **Go**: The Go runtime is required if you want to build and run the tool from source.
 
